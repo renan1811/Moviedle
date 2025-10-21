@@ -1,83 +1,63 @@
 <script setup>
+import { ref } from 'vue'
+import { Carousel, Slide } from 'vue3-carousel'
+import 'vue3-carousel/dist/carousel.css'
+import '@mdi/font/css/materialdesignicons.css'
+
+const myCarousel = ref(null)
+
+const currentSlide = ref(0) 
+const goToSlide = (index) => {
+  if (myCarousel.value) {
+    myCarousel.value.slideTo(index)
+    currentSlide.value = index
+  }
+}
+const slides = [
+  { titulo: 'Decifre o filme', number: 1, subtitulo: 'Decifre através de carácteristicas do filme' },
+  { titulo: 'Descubra o filme', number: 2, subtitulo: 'Descubra o filme através de dicas'},
+  { titulo: 'Descubra pela imagem', number: 3, subtitulo: 'Descubra o filme pela imagem'},
+  { titulo: 'Quem é mais famoso', number: 4, subtitulo: 'Adivinhe qual ator é mais famoso' },
+  { titulo: 'Acerte pelo elenco', number: 5, subtitulo: 'Acerte o filme pelo elenco' },
+]
 </script>
 
 <template>
-    <nav>
-        <ul>
-            <li>
-                <h4>
-                    M
-                </h4>
-                <div>
-                    <h2>
-                        Decifre o filme
-                    </h2>
-                    <span>
-                        <h3>
-                            1
-                        </h3>
-                    </span>
-                </div>
-
-            </li>
-            <li>
-                <h4>
-                    M
-                </h4>
-                <div>
-                    <h2>
-                        Descubra o filme
-                    </h2>
-                    <h3>
-                        2
-                    </h3>
-                </div>
-
-            </li>
-            <li>
-                <h4>
-                    M
-                </h4>
-                <div>
-                    <h2>
-                        Descubra pela imagem
-                    </h2>
-                    <h3>
-                        3
-                    </h3>
-                </div>
-
-            </li>
-            <li>
-                <h4>
-                    M
-                </h4>
-                <div>
-                    <h2>
-                        Quem é mais famoso
-                    </h2>
-                    <h3>
-                        4
-                    </h3>
-                </div>
-
-            </li>
-            <li>
-                <h4>
-                    M
-                </h4>
-                <h2>
-                    Acerte pelo elenco
-                </h2>
-                <h3>
-                    5
-                </h3>
-            </li>
-        </ul>
-    </nav>
+    <Carousel
+    ref="myCarousel"
+    :items-to-show="3"
+    snap-align="center"
+    :wrap-around="true"
+  >
+    <Slide
+      v-for="(slide, index) in slides"
+      :key="index"
+      @click="goToSlide(index)"
+    >
+      <li>
+        <div v-if="currentSlide == index">
+            <div class="card">
+                <h1>1</h1>
+                <span class="mdi mdi-play"></span>
+            </div>
+            <div>
+                <h1>Moviedle: {{ slide.titulo }}</h1>
+            <h2>{{ slide.subtitulo }}</h2>
+            </div>
+            
+        </div>
+        <div v-else>
+            <h1>sla</h1>
+        </div>
+      </li>
+    </Slide>
+  </Carousel>
 </template>
 
 <style scoped>
+div {
+    color: white;
+}
 nav ul {
     display: flex;
     justify-content: center;
