@@ -19,4 +19,9 @@ h2 {
   color: white;
   text-align: center;
 }
+p {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
 </style>
