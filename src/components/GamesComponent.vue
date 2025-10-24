@@ -21,7 +21,10 @@ function rotacionarArray(array, indexClicado) {
         <li v-for="(jogo, index) in jogos" :key="index" v-on:click="rotacionarArray(jogos, index)" :style="index === 2 ? 'transform: scale(1.3); margin: 0px 40px' : ''">
           <div class="card">
             <h2>{{ jogo.numero }}</h2>
-            <h1>{{ jogo.titulo }}</h1>
+            <div v-if="index == 2">
+              <span class="mdi mdi-play"></span>
+            </div>
+            <h1 v-else>{{ jogo.titulo }}</h1>
           </div>
         </li>
       </ul>
@@ -36,7 +39,8 @@ function rotacionarArray(array, indexClicado) {
 ul {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 2vw;
+  margin: 4vw 0 0 0;
 }
 
 
@@ -54,10 +58,26 @@ div.card {
     justify-content: center;
     align-items: center;
     z-index: -2;
+      transition: 0.2s ease;
 }
 
-div.card::before {
-  content: "";
+.card:hover {
+    transform: translateY(-5px);
+}
+li:hover {
+  transform: translateY(-5px);
+}
+div.card div {
+    border: 1px solid grey;
+    border-radius: 100%;
+    font-size: 3.5rem;
+    height: 9vh;
+    width: 5vw;
+}
+div.card span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 div.card h1 {
   font-size: 2rem;

@@ -1,4 +1,5 @@
 <script setup>
+import FooterComponent from '@/components/FooterComponent.vue';
 import GamesComponent from '@/components/GamesComponent.vue';
 import HeaderComponent from '@/components/HeaderComponent.vue';
 </script>
@@ -9,6 +10,8 @@ import HeaderComponent from '@/components/HeaderComponent.vue';
   </h2>
 
   <GamesComponent />
+
+  <FooterComponent />
 </template>
 
 <style scoped>
