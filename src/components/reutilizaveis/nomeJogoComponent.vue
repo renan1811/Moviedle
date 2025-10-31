@@ -2,13 +2,14 @@
 import '@mdi/font/css/materialdesignicons.min.css'
 </script>
 <template>
-    <div>
-        <h1>Nome do jogo</h1>
-        <span class="mdi mdi-information-outline"></span>
-    </div>
-    <div class="informacoes">
-        <h1>oiiiiiiiiiiii</h1>
-    </div>
+    <div class="jogo">
+  <h1>Nome do jogo</h1>
+  <span class="mdi mdi-information-outline">
+  <div class="informacoes">
+    <h1>oiiiiiiiiiiii</h1>
+  </div>
+  </span>
+</div>
 </template>
 <style scoped>
 
@@ -29,11 +30,11 @@ span {
     color: #ffe100;
 }
 .informacoes {
-    opacity: 0;
-    background-color: white;
-    color: white;
+    opacity: 1;
+    background-color: red;
+    color: red;
 }
 span:hover .informacoes{
-    opacity: 1;
+    background-color: green;
 }
 </style>
