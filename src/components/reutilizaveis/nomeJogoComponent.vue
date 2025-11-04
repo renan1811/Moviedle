@@ -18,7 +18,7 @@ defineProps({
     <h1>Como Jogar:</h1>
     <p>{{ comoJogar }}</p>
   </div>
-  <h1 class="desc">{{ desc }}</h1>
+  <h1 v-if="!isHovered" class="desc">{{ desc }}</h1>
 </template>
 <style scoped>
 
