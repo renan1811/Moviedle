@@ -28,9 +28,16 @@ onMounted(async () => {
 <template>
     <div v-if="filmes.length && numAleatorio !== null">
     <h1>{{ palavraEmbaralhada }}</h1>
-    <h2>{{ filmeEscolhido }}</h2>
-    <h2>{{ numAleatorio }}</h2>
   </div>
 </template>
 <style>
+div {
+  margin: 2vw 0 0 0;
+}
+h1 {
+  text-align: center;
+  font-size: 6rem;
+  font-weight: bold;
+  color: white;
+}
 </style>
