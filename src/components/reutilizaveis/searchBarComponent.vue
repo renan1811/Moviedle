@@ -1,10 +1,11 @@
 <script setup>
-  import { ref } from 'vue'
+  import { ref, inject } from 'vue'
   import axios from 'axios'
   
   const query = ref('')
   const resultados = ref([])
-  const selecionados = ref([]);
+  
+  const selecionados =  inject('selecionados');
   const buscarFilmes = async () => {
     if (!query.value.trim()) {
       resultados.value = []
@@ -37,6 +38,7 @@
   </script>
   <template>
     <div class="input-wrapper">
+      <h2 class="tentativas">tentativas: <span>{{ selecionados.length }}</span></h2>
       <input
         v-model="query"
         @input="buscarFilmes"
@@ -70,7 +72,14 @@
   flex-direction: column;
   align-items: center;
   }
-  
+  h2.tentativas {
+    margin: 0 15vw 0 0;
+    color: white;
+    font-size: 1.2rem;
+  }
+  .tentativas span {
+    color: #ffe100;
+  }
   .input {
     width: 26vw;
     height: 7vh;

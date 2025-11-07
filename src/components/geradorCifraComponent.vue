@@ -1,9 +1,10 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, inject } from 'vue';
 import api from '@/plugins/axios'
 const filmes = ref([])
 const numAleatorio = ref(null)
-const filmeEscolhido = ref("")
+
+const filmeEscolhido = inject('filmeEscolhido')
 const palavraEmbaralhada = ref("")
 
 
@@ -28,6 +29,7 @@ onMounted(async () => {
 <template>
     <div v-if="filmes.length && numAleatorio !== null">
     <h1>{{ palavraEmbaralhada }}</h1>
+    <h2>{{ filmeEscolhido }}</h2>
   </div>
 </template>
 <style>
