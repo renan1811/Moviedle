@@ -16,7 +16,7 @@ function embaralharPalavra(palavra) {
 }
 onMounted(async () => {
     const paginaAleatoria = Math.floor(Math.random() * 50) 
-    const response = await api.get(`https://api.themoviedb.org/3/discover/movie?language=pt-BR&sort_by=popularity.desc&page=${paginaAleatoria}
+    const response = await api.get(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=pt-BR&page=${paginaAleatoria}&sort_by=popularity.desc&vote_count.gte=1500
 `) 
     filmes.value = response.data.results
     
