@@ -1,12 +1,18 @@
 <script setup>
-import { ref, onMounted, inject } from 'vue';
+import { ref, onMounted, inject, watch } from 'vue';
 import api from '@/plugins/axios'
 const filmes = ref([])
 const numAleatorio = ref(null)
 
 const filmeEscolhido = inject('filmeEscolhido')
-const palavraEmbaralhada = ref("")
-
+const palavraEmbaralhada = ref([])
+const filmeEscolhidoArray = palavra.split(filmeEscolhido.title);
+const selecionados =  inject('selecionados');
+watch(selecionados.length, () => {
+  for (const letra of filmeEscolhidoArray) {
+    
+  }
+})
 
 function embaralharPalavra(palavra) {
   let embaralhada = palavra
@@ -22,14 +28,14 @@ onMounted(async () => {
     filmes.value = response.data.results
     
     numAleatorio.value = Math.floor(Math.random() * 20)
-    filmeEscolhido.value = filmes.value[numAleatorio.value].title
-    palavraEmbaralhada.value = embaralharPalavra(filmeEscolhido.value)
+    filmeEscolhido.value = filmes.value[numAleatorio.value]
+    palavraEmbaralhada.value = embaralharPalavra(filmeEscolhido.value.title)
 })
 </script>
 <template>
     <div v-if="filmes.length && numAleatorio !== null">
     <h1>{{ palavraEmbaralhada }}</h1>
-    <h2>{{ filmeEscolhido }}</h2>
+    <h2>{{ filmeEscolhido.title }}</h2>
   </div>
 </template>
 <style>

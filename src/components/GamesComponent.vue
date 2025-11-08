@@ -95,7 +95,7 @@ div.card h2 {
   font-size: 11rem;
   font-weight: bold;
   z-index: -1;
-  opacity: 30%;
+  opacity: 10%;
   color: #ffe100;
 }
 div.info {

@@ -30,7 +30,7 @@
 
   function selecionou(idselec) {
     const achar = resultados.value.find((filme) => filme.id == idselec)
-    selecionados.value.push(achar)
+    selecionados.value.unshift(achar)
     console.log(selecionados.value.length)
     query.value = ''
     resultados.value = [];

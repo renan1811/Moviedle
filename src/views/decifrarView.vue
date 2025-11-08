@@ -11,13 +11,20 @@ provide('selecionados', selecionados)
 
 const filmeEscolhido = ref("")
 provide('filmeEscolhido', filmeEscolhido)
+
+const aparecer = ref(false)
+provide('aparecer', aparecer)
 </script>
 <template>
     <HeaderComponent />
-    <NomeJogoComponent nome="Decifrar o filme" comoJogar="Você vai receber um filme com o nome embaralhado, e tera que advinhar que filme é esse. A cada tentativa uma letra fica na posição correta." desc="Tente advinhar o filme com essa palavra: "/>
+     <VitoriaComponent />
+     <div v-if="aparecer == false">
+        <NomeJogoComponent nome="Decifrar o filme" comoJogar="Você vai receber um filme com o nome embaralhado, e tera que advinhar que filme é esse. A cada tentativa uma letra fica na posição correta." desc="Tente advinhar o filme com essa palavra: "/>
    <GeradorCifraComponent />
    <SearchBarComponent />
-   <VitoriaComponent />
+     </div>
+    
+   
 </template>
 
 <style scoped>
