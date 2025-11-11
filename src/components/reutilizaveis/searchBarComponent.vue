@@ -79,6 +79,7 @@
   }
   .tentativas span {
     color: #ffe100;
+    font-size: 1.2rem;
   }
   .input {
     width: 26vw;

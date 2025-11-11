@@ -80,6 +80,7 @@ div.vitoria h2 {
 }
 div.vitoria h2 span {
     color: #ffe100;
+    font-size: 1.3rem;
 }
 div.vitoria div.filme {
     display: flex;
