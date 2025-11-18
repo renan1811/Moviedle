@@ -151,6 +151,7 @@ div.vitoria {
 
 div.vitoria h1.principal {
   font-size: 3rem;
+  color: white;
 }
 
 div.vitoria h2 {
@@ -177,6 +178,7 @@ div.vitoria div.filme h1.titulo {
   font-size: 2rem;
   text-align: left;
   max-width: 20vw;
+  color: white;
 }
 
 div.vitoria div.filme div.info ul {
