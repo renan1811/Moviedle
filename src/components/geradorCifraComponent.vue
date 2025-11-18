@@ -66,7 +66,6 @@ onMounted(async () => {
         {{ letra }}
       </span>
     </h1>
-    <h1>{{ filmeEscolhido.title }}</h1>
   </div>
 </template>
 <style>

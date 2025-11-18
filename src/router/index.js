@@ -16,6 +16,11 @@ const routes = [
     name: 'TV',
     component: () => import('../views/TvView.vue'),
   },
+  {
+    path: '/adivinharElenco',
+    name: 'adivinharElenco',
+    component: () => import('../views/adivinharElencoView.vue'),
+  },
 ];
 
 const router = createRouter({
