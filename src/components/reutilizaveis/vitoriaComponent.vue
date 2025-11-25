@@ -152,6 +152,7 @@ div.vitoria {
 div.vitoria h1.principal {
   font-size: 3rem;
   color: white;
+  font-weight: bold;
 }
 
 div.vitoria h2 {
@@ -161,12 +162,14 @@ div.vitoria h2 {
 div.vitoria h2 span {
   color: #ffe100;
   font-size: 1.3rem;
+  font-weight: bold;
 }
 
 div.vitoria div.filme {
   display: flex;
   gap: 2vw;
   position: relative;
+  margin-top: 2vw;
 }
 
 div.vitoria div.filme img {
@@ -177,10 +180,13 @@ div.vitoria div.filme img {
 div.vitoria div.filme h1.titulo {
   font-size: 2rem;
   text-align: left;
+  font-weight: bold;
   max-width: 20vw;
   color: white;
 }
-
+div.info {
+  margin-top: 2vw;
+}
 div.vitoria div.filme div.info ul {
   display: flex;
   color: white;
@@ -203,6 +209,7 @@ div.info div {
   display: flex;
   gap: 0.6vw;
   font-size: 0.7rem;
+  margin-top: 2vw;
 }
 
 div.info div h2 {
