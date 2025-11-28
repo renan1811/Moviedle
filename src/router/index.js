@@ -30,6 +30,14 @@ const routes = [
     path: '/vitoria',
     name: 'Vitoria',
     component: () => import('../components/reutilizaveis/vitoriaComponent.vue'),
+    path: '/qual',
+    name: 'qual',
+    component: () => import('../views/QualView.vue'),
+  },
+  {
+    path: '/derrota4',
+    name: 'Derrota',
+    component: () => import('../components/QualDerrotaComponent.vue'),
   },
 ];
 
