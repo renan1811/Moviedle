@@ -2,11 +2,11 @@
 import { ref } from 'vue'
 import '@mdi/font/css/materialdesignicons.css'
 const jogos = ref([
-  { titulo: 'Decifre o filme', numero: 1, subtitulo: 'Decifre através de carácteristicas do filme' },
-  { titulo: 'Descubra o filme', numero: 2, subtitulo: 'Descubra o filme através de dicas'},
-  { titulo: 'Descubra pela imagem', numero: 3, subtitulo: 'Descubra o filme pela imagem'},
-  { titulo: 'Quem é mais famoso', numero: 4, subtitulo: 'Adivinhe qual ator é mais famoso' },
-  { titulo: 'Acerte pelo elenco', numero: 5, subtitulo: 'Acerte o filme pelo elenco' },
+  { titulo: 'Decifre o filme', numero: 1, subtitulo: 'Decifre através de carácteristicas do filme', router: "decifrar" },
+  { titulo: 'Descubra o filme', numero: 2, subtitulo: 'Descubra o filme através de dicas', router: "decifrar"},
+  { titulo: 'Descubra pela imagem', numero: 3, subtitulo: 'Descubra o filme pela imagem', router: "decifrar"},
+  { titulo: 'Quem é mais famoso', numero: 4, subtitulo: 'Adivinhe qual ator é mais famoso', router: "decifrar" },
+  { titulo: 'Acerte pelo elenco', numero: 5, subtitulo: 'Acerte o filme pelo elenco', router: "decifrar" },
 ]) 
 
 function rotacionarArray(array, indexClicado) {
@@ -19,19 +19,23 @@ function rotacionarArray(array, indexClicado) {
 <template>
       <ul>
         <li v-for="(jogo, index) in jogos" :key="index" v-on:click="rotacionarArray(jogos, index)" :style="index === 2 ? 'transform: scale(1.3); margin: 0px 40px' : ''">
+          
           <div class="card">
             <h2>{{ jogo.numero }}</h2>
             <div v-if="index == 2">
+              <router-link :to="jogo.router" class="router">
               <span class="mdi mdi-play"></span>
+              </router-link>
             </div>
             <h1 v-else>{{ jogo.titulo }}</h1>
           </div>
+        
         </li>
       </ul>
       <div class="info">
         <h1>Moviedle: {{ jogos[2].titulo }}</h1>
         <h2>{{ jogos[2].subtitulo }}</h2>
-        <a>Jogar</a>
+        <router-link :to="jogos[2].router">Jogar</router-link>
       </div>
     
 </template>
@@ -60,24 +64,25 @@ div.card {
     z-index: -2;
       transition: 0.2s ease;
 }
-
 .card:hover {
     transform: translateY(-5px);
 }
 li:hover {
   transform: translateY(-5px);
 }
-div.card div {
-    border: 1px solid grey;
-    border-radius: 100%;
-    font-size: 3.5rem;
-    height: 9vh;
-    width: 5vw;
+.router {
+  box-shadow: none;
+  background: transparent;
+  font-size: 5rem;
 }
 div.card span {
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 2px solid grey;
+  height: 11vh;
+  width: 6vw;
+  border-radius: 100%;
 }
 div.card h1 {
   font-size: 2rem;
@@ -90,7 +95,7 @@ div.card h2 {
   font-size: 11rem;
   font-weight: bold;
   z-index: -1;
-  opacity: 30%;
+  opacity: 10%;
   color: #ffe100;
 }
 div.info {
