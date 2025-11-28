@@ -17,6 +17,10 @@ const routes = [
     component: () => import('../views/TvView.vue'),
   },
   {
+    path: '/adivinharElenco',
+    name: 'adivinharElenco',
+    component: () => import('../views/adivinharElencoView.vue'),
+  },
     path: '/qual',
     name: 'qual',
     component: () => import('../views/QualView.vue'),
@@ -26,7 +30,6 @@ const routes = [
     name: 'Derrota',
     component: () => import('../components/QualDerrotaComponent.vue'),
   },
-
 ];
 
 const router = createRouter({

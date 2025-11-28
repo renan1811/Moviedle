@@ -6,7 +6,7 @@ const jogos = ref([
   { titulo: 'Descubra o filme', numero: 2, subtitulo: 'Descubra o filme através de dicas', router: "decifrar"},
   { titulo: 'Descubra pela imagem', numero: 3, subtitulo: 'Descubra o filme pela imagem', router: "decifrar"},
   { titulo: 'Quem é mais caro ', numero: 4, subtitulo: 'Adivinhe qual filme custou mais', router: "qual" },
-  { titulo: 'Acerte pelo elenco', numero: 5, subtitulo: 'Acerte o filme pelo elenco', router: "decifrar" },
+{ titulo: 'Acerte pelo elenco', numero: 5, subtitulo: 'Acerte o filme pelo elenco', router: "adivinharElenco" },
 ])
 
 function rotacionarArray(array, indexClicado) {
