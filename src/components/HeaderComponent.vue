@@ -20,9 +20,9 @@ nav {
 }
 h1 {
     margin: 2vw 4vw;
-    font-family: 'Monoton', cursive;
-    font-size: 4rem;
-    color: red;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #FFE100;
     text-align: left;
 }
 </style>
