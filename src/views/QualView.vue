@@ -6,7 +6,7 @@ import HeaderComponent from '@/components/reutilizaveis/HeaderComponent.vue';
 import VitoriaComponent from '@/components/reutilizaveis/vitoriaComponent.vue';
 import QualComponent from '@/components/QualComponent.vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { farHouse } from '@fortawesome/free-solid-svg-icons'
+import { faHouse } from '@fortawesome/free-solid-svg-icons'
 
 const selecionados = ref([])
 provide('selecionados', selecionados)
@@ -35,7 +35,7 @@ onMounted(() => {
     <QualComponent />
     <div class="voltar">
       <router-link to="/">
-        <p>voltar para a tela inicial<span><FontAwesomeIcon :icon="farHouse" class="icone"></FontAwesomeIcon></span></p>
+        <p>voltar para a tela inicial<span><FontAwesomeIcon :icon="faHouse" class="icone"></FontAwesomeIcon></span></p>
       </router-link>
     </div>
 </template>
