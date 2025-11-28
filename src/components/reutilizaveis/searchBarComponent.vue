@@ -1,71 +1,51 @@
 <script setup>
-  import { ref, inject } from 'vue'
-  import axios from 'axios'
-  
-  const query = ref('')
-  const resultados = ref([])
-  
-  const selecionados =  inject('selecionados');
-  const buscarFilmes = async () => {
-    if (!query.value.trim()) {
-      resultados.value = []
-      return
-    }
-  
-    try {
-      const resposta = await axios.get('https://api.themoviedb.org/3/search/movie', {
-        headers: {
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMDMyZjIxYWZjMjFmNWEwMTBiMmEyYjVmZTBmYWVlNiIsIm5iZiI6MTc1OTI1MjA4NC41NzksInN1YiI6IjY4ZGMwZTc0OTUwYTUxMTEwYWM3NmY5NSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0iCrH0giesdGUiEjH1HNqQQ0OyKyW3dkc-fQO6j4LI4'
-        },
-        params: {
-          language: 'pt-BR',
-          query: query.value
-        }
-      })
-      resultados.value = resposta.data.results
-    } catch (erro) {
-      console.error('Erro ao buscar filmes:', erro)
-    }
-  }
+import { useFilmesStore } from '@/stores/searchbar'
 
-  function selecionou(idselec) {
-    const achar = resultados.value.find((filme) => filme.id == idselec)
-    selecionados.value.unshift(achar)
-    console.log(selecionados.value.length)
-    query.value = ''
-    resultados.value = [];
-  }
-  </script>
+const search = useFilmesStore()
+
+function selecionou(filme) {
+  search.addSelecionado(filme)
+  search.query = ''
+  search.resultados = []
+}
+</script>
   <template>
-    <div class="input-wrapper">
-      <h2 class="tentativas">tentativas: <span>{{ selecionados.length }}</span></h2>
-      <input
-        v-model="query"
-        @input="buscarFilmes"
-        placeholder="Digite para buscar..."
-        class="input"
-      />
-      <div v-if="resultados.length " class="filmes">
-        <ul>
-        <li v-for="filme in resultados" :key="filme.id" @click="selecionou(filme.id)">
+  <div class="input-wrapper">
+    <input
+      v-model="search.query"
+      @input="search.buscarFilmes"
+      placeholder="Digite para buscar..."
+      class="input"
+    />
+    <div v-if="search.resultados.length" class="filmes">
+      <ul>
+        <li
+          v-for="filme in search.resultados"
+          :key="filme.id"
+          @click="selecionou(filme)"
+        >
           <img :src="`https://image.tmdb.org/t/p/w92${filme.poster_path}`" alt="">
           <h2>{{ filme.title }}</h2>
         </li>
       </ul>
-      </div>
-      <div class="selecionados">
-        <ul>
-          <li v-for="filme in selecionados" :key="filme.id" class="selecionados">
-            <img :src="`https://image.tmdb.org/t/p/w92${filme.poster_path}`" alt="">
-          <h2>{{ filme.title }}</h2>
-          </li>
-        </ul>
-      </div>
     </div>
-  </template>
-  
-  
-  
+    <div class="selecionados">
+  <ul>
+    <li
+      v-for="filme in search.selecionados"
+      :key="filme.id"
+      class="selecionados"
+    >
+      <img :src="`https://image.tmdb.org/t/p/w92${filme.poster_path}`" alt="">
+      <h2>{{ filme.title }}</h2>
+    </li>
+  </ul>
+</div>
+  </div>
+</template>
+
+
+
   <style scoped>
   .input-wrapper {
     display: flex;
@@ -136,4 +116,3 @@ li.selecionados h2 {
   margin-top: 1.5vw;
 }
   </style>
-  
