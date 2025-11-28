@@ -1,11 +1,11 @@
 <script setup>
 import { onMounted, watch, inject} from 'vue'
 import { useFilmesStore } from '@/stores/index.js'
-import { useRouter } from 'vue-router' // <-- NOVO: Importação do useRouter
+//import { useRouter } from 'vue-router' // <-- NOVO: Importação do useRouter
 import searchBarComponent from './reutilizaveis/searchBarComponent.vue'
 
 
-const router = useRouter()
+//const router = useRouter()
 
 const selecionados = inject('selecionados');
 
@@ -27,9 +27,9 @@ watch(
       const filmeSelecionado = novoValor[0];
 
       if (store.filmeEscolhido && filmeSelecionado.id === store.filmeEscolhido.id) {
-        console.log("VITÓRIA! O filme selecionado é o correto.");
-        router.push({ name: 'Vitoria' });
+        console.log(store.filmeEscolhido.value);
         aparecer.value = true
+
 
       }
     }

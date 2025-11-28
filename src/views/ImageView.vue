@@ -11,13 +11,13 @@ import VitoriaComponent from '@/components/reutilizaveis/vitoriaComponent.vue';
 const selecionados = ref([])
 provide('selecionados', selecionados)
 
-const filmeEscolhido = ref("")
-provide('filmeEscolhido', filmeEscolhido)
+const store = useFilmesStore()
+provide('filmeEscolhido', store.filmeEscolhido)
 
 const aparecer = ref(false)
 provide('aparecer', aparecer)
 
-const store = useFilmesStore()
+
 
 
 onMounted(() => {
