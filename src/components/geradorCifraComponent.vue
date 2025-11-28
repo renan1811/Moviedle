@@ -1,18 +1,13 @@
 <script setup>
-import { ref, onMounted, inject, watch } from 'vue';
+import { ref, onMounted, inject } from 'vue';
 import api from '@/plugins/axios'
 const filmes = ref([])
 const numAleatorio = ref(null)
 
 const filmeEscolhido = inject('filmeEscolhido')
 const palavraEmbaralhada = ref([])
-const filmeEscolhidoArray = palavra.split(filmeEscolhido.title);
-const selecionados =  inject('selecionados');
-watch(selecionados.length, () => {
-  for (const letra of filmeEscolhidoArray) {
-    
-  }
-})
+
+
 
 function embaralharPalavra(palavra) {
   let embaralhada = palavra
@@ -22,11 +17,11 @@ function embaralharPalavra(palavra) {
   return embaralhada
 }
 onMounted(async () => {
-    const paginaAleatoria = Math.floor(Math.random() * 50) 
+    const paginaAleatoria = Math.floor(Math.random() * 50)
     const response = await api.get(`https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=pt-BR&page=${paginaAleatoria}&sort_by=popularity.desc&vote_count.gte=1500
-`) 
+`)
     filmes.value = response.data.results
-    
+
     numAleatorio.value = Math.floor(Math.random() * 20)
     filmeEscolhido.value = filmes.value[numAleatorio.value]
     palavraEmbaralhada.value = embaralharPalavra(filmeEscolhido.value.title)
