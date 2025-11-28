@@ -21,6 +21,16 @@ const routes = [
     name: 'adivinharElenco',
     component: () => import('../views/adivinharElencoView.vue'),
   },
+  {
+    path: '/imagem',
+    name: 'Imagem',
+    component: () => import('../views/ImageView.vue'),
+  },
+  {
+    path: '/vitoria',
+    name: 'Vitoria',
+    component: () => import('../components/reutilizaveis/vitoriaComponent.vue'),
+  },
 ];
 
 const router = createRouter({

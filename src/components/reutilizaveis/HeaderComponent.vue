@@ -19,7 +19,7 @@ nav {
     width: 100%;
 }
 h1 {
-    margin: 2vw 4vw;
+    margin: 1vw 4vw 0;
     font-size: 2.5rem;
     font-weight: bold;
     color: #FFE100;
