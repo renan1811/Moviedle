@@ -5,13 +5,13 @@ const jogos = ref([
   { titulo: 'Decifre o filme', numero: 1, subtitulo: 'Decifre através de carácteristicas do filme', router: "decifrar" },
   { titulo: 'Descubra o filme', numero: 2, subtitulo: 'Descubra o filme através de dicas', router: "decifrar"},
   { titulo: 'Descubra pela imagem', numero: 3, subtitulo: 'Descubra o filme pela imagem', router: "decifrar"},
-  { titulo: 'Quem é mais famoso', numero: 4, subtitulo: 'Adivinhe qual ator é mais famoso', router: "decifrar" },
+  { titulo: 'Quem é mais caro ', numero: 4, subtitulo: 'Adivinhe qual filme custou mais', router: "qual" },
   { titulo: 'Acerte pelo elenco', numero: 5, subtitulo: 'Acerte o filme pelo elenco', router: "decifrar" },
-]) 
+])
 
 function rotacionarArray(array, indexClicado) {
   const meio = Math.floor(array.length / 2);
-  const deslocamento = indexClicado - meio; 
+  const deslocamento = indexClicado - meio;
   jogos.value = array.slice(deslocamento).concat(array.slice(0, deslocamento));
 }
 </script>
@@ -19,7 +19,7 @@ function rotacionarArray(array, indexClicado) {
 <template>
       <ul>
         <li v-for="(jogo, index) in jogos" :key="index" v-on:click="rotacionarArray(jogos, index)" :style="index === 2 ? 'transform: scale(1.3); margin: 0px 40px' : ''">
-          
+
           <div class="card">
             <h2>{{ jogo.numero }}</h2>
             <div v-if="index == 2">
@@ -29,7 +29,7 @@ function rotacionarArray(array, indexClicado) {
             </div>
             <h1 v-else>{{ jogo.titulo }}</h1>
           </div>
-        
+
         </li>
       </ul>
       <div class="info">
@@ -37,7 +37,7 @@ function rotacionarArray(array, indexClicado) {
         <h2>{{ jogos[2].subtitulo }}</h2>
         <router-link :to="jogos[2].router">Jogar</router-link>
       </div>
-    
+
 </template>
 <style scoped>
 ul {
@@ -88,7 +88,7 @@ div.card h1 {
   font-size: 2rem;
   font-weight: bold;
   display: flex;
-  
+
 }
 div.card h2 {
   position: absolute;
@@ -99,7 +99,7 @@ div.card h2 {
   color: #ffe100;
 }
 div.info {
-  margin: 4vw 0 0 0; 
+  margin: 4vw 0 0 0;
   color: white;
 }
 

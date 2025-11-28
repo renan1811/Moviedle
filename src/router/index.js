@@ -16,6 +16,17 @@ const routes = [
     name: 'TV',
     component: () => import('../views/TvView.vue'),
   },
+  {
+    path: '/qual',
+    name: 'qual',
+    component: () => import('../views/QualView.vue'),
+  },
+  {
+    path: '/derrota4',
+    name: 'Derrota',
+    component: () => import('../components/QualDerrotaComponent.vue'),
+  },
+
 ];
 
 const router = createRouter({
