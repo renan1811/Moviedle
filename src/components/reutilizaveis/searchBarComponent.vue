@@ -11,6 +11,7 @@ function selecionou(filme) {
 </script>
   <template>
   <div class="input-wrapper">
+     <h2 class="tentativas">tentativas: <span>{{ search.selecionados.length }}</span></h2>
     <input
       v-model="search.query"
       @input="search.buscarFilmes"

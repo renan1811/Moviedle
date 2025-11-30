@@ -1,101 +1,110 @@
-  <script setup>
-  import { inject, ref, watch, onMounted } from 'vue'
-  import api from '@/plugins/axios'
-  const selecionados = inject('selecionados')
-  const filmeEscolhido = inject('filmeEscolhido')
-  const aparecer = inject('aparecer')
-  const classificacao = ref('')
-  const dataLancamento = ref("")
-  const duracaoFilme = ref(null);
-  const notaFilme = ref("")
-  const inteiro = ref(0)
-  const decimal = ref(0)
-  const resto = ref(0)
-  watch(
-    selecionados,
-    () => {
-      for (const selecionado of selecionados.value) {
-        if (selecionado.title === filmeEscolhido.value.title) {
-          aparecer.value = true
-        }
-      }
-    },
-    { deep: true },
-  )
-  const genres = ref([])
-  const generoCerto = ref([])
+<script setup>
+import { inject, ref, watch, onMounted } from 'vue'
+import api from '@/plugins/axios'
+import { useEmbaralharStore } from '@/stores/embaralhar'
+import { useFilmesStore } from '@/stores/searchbar'
+// 1. Importar storeToRefs do Pinia
+import { storeToRefs } from 'pinia'
 
-  onMounted(async () => {
-    const response = await api.get('genre/movie/list?language=pt-BR')
-    genres.value = response.data.genres
-  })
+const store = useEmbaralharStore()
+const search = useFilmesStore()
 
-  watch(filmeEscolhido, async () => {
-    generoCerto.value = []
-    for (const generoId of filmeEscolhido.value.genre_ids) {
-      for (const genre of genres.value) {
-        if (genre.id === generoId) {
-          generoCerto.value.push(genre.name)
-        }
+// 2. Desestruturar as propriedades reativas para uso no template
+const { filmeEscolhido } = storeToRefs(store)
+const { selecionados } = storeToRefs(search)
+
+const aparecer = inject('aparecer')
+const classificacao = ref('')
+const dataLancamento = ref("")
+const duracaoFilme = ref(null);
+const notaFilme = ref("")
+const inteiro = ref(0)
+const decimal = ref(0)
+const resto = ref(0)
+
+watch(
+  selecionados,
+  (novoValor) => {
+    if (!filmeEscolhido.value) return
+
+    for (const selecionado of novoValor) {
+      if (selecionado.title === filmeEscolhido.value.title) {
+        aparecer.value = true
+        console.log('VITÓRIA! filme:', filmeEscolhido.value.title)
+        break
       }
     }
-    try {
-      const response = await api.get(`movie/${filmeEscolhido.value.id}/release_dates`)
-      const resultados = response.data.results
-      const br = resultados.find((pais) => pais.iso_3166_1 === 'BR')
-      classificacao.value = br?.release_dates?.[0]?.certification || 'Sem classificação'
-      console.log('Classificação indicativa:', classificacao.value)
-    } catch (erro) {
-      console.error('Erro ao buscar classificação:', erro)
+  },
+  { deep: true }
+)
+
+const genres = ref([])
+const generoCerto = ref([])
+
+onMounted(async () => {
+  const response = await api.get('genre/movie/list?language=pt-BR')
+  genres.value = response.data.genres
+})
+
+watch(filmeEscolhido, async () => {
+  if (!filmeEscolhido.value) return 
+
+  generoCerto.value = []
+  for (const generoId of filmeEscolhido.value.genre_ids) {
+    for (const genre of genres.value) {
+      if (genre.id === generoId) {
+        generoCerto.value.push(genre.name)
+      }
     }
-    try {
-      const respFilme = await api.get(`movie/${filmeEscolhido.value.id}`)
-      dataLancamento.value = respFilme.data.release_date
-      duracaoFilme.value = respFilme.data.runtime;
-      notaFilme.value = respFilme.data.vote_average
-
-      const notaPraCinco = ((notaFilme.value * 5) / 10).toFixed(2)
-      inteiro.value = Math.floor(notaPraCinco)
-      decimal.value = notaPraCinco - inteiro.value
-      resto.value = Math.floor(5 - decimal.value) - inteiro.value
-
-      console.log("Data de lançamento:", dataLancamento.value)
-    } catch (erro) {
-      console.error("Erro ao buscar data de lançamento:", erro)
-    }
-
-  })
-  onMounted(async () => {
+  }
+  try {
     const response = await api.get(`movie/${filmeEscolhido.value.id}/release_dates`)
     const resultados = response.data.results
     const br = resultados.find((pais) => pais.iso_3166_1 === 'BR')
-    const classificacao = br?.release_dates?.[0]?.certification || 'Sem classificação'
-    console.log('Classificação indicativa:', classificacao)
-  })
-
-  function corDaClassificacao(classificacao) {
-    return coresClassificacao[classificacao] || '#7f8c8d' // cinza
+    classificacao.value = br?.release_dates?.[0]?.certification || 'Sem classificação'
+    console.log('Classificação indicativa:', classificacao.value)
+  } catch (erro) {
+    console.error('Erro ao buscar classificação:', erro)
   }
-  const coresClassificacao = {
-    L: '#2ecc71', // verde
-    10: '#3498db', // azul
-    12: '#f1c40f', // amarelo
-    14: '#e67e22', // laranja
-    16: '#e74c3c', // vermelho
-    18: '#000000', // preto
-  }
-  const formatDate = (date) => new Date(date
-  ).toLocaleDateString('pt-BR')
+  try {
+    const respFilme = await api.get(`movie/${filmeEscolhido.value.id}`)
+    dataLancamento.value = respFilme.data.release_date
+    duracaoFilme.value = respFilme.data.runtime;
+    notaFilme.value = respFilme.data.vote_average
 
-  function formatoHoras(minutos) {
-    if (!minutos) return " "
-    const horas = Math.floor(minutos / 60);
-    const mins = minutos % 60;
-    return `${horas}h ${mins}min`;
+    const notaPraCinco = ((notaFilme.value * 5) / 10).toFixed(2)
+    inteiro.value = Math.floor(notaPraCinco)
+    decimal.value = notaPraCinco - inteiro.value
+    resto.value = Math.floor(5 - decimal.value) - inteiro.value
+
+    console.log("Data de lançamento:", dataLancamento.value)
+  } catch (erro) {
+    console.error("Erro ao buscar data de lançamento:", erro)
   }
 
+})
+function corDaClassificacao(classificacao) {
+  return coresClassificacao[classificacao] || '#7f8c8d' // cinza
+}
+const coresClassificacao = {
+  L: '#2ecc71', // verde
+  10: '#3498db', // azul
+  12: '#f1c40f', // amarelo
+  14: '#e67e22', // laranja
+  16: '#e74c3c', // vermelho
+  18: '#000000', // preto
+}
+const formatDate = (date) => new Date(date
+).toLocaleDateString('pt-BR')
 
-  </script>
+function formatoHoras(minutos) {
+  if (!minutos) return " "
+  const horas = Math.floor(minutos / 60);
+  const mins = minutos % 60;
+  return `${horas}h ${mins}min`;
+}
+</script>
+
   <template>
     <div v-if="aparecer" class="vitoria">
       <h1 class="principal">Parabéns!</h1>

@@ -7,7 +7,7 @@ export const useEmbaralharStore = defineStore('embaralhar', () => {
 
   const filmes = ref([])
   const numAleatorio = ref(null)
-
+  const aparecer = ref(false)
   const filmeEscolhido = ref(null)
   const palavraEmbaralhada = ref([])
 
