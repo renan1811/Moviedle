@@ -7,7 +7,8 @@ export const useEmbaralharStore = defineStore('embaralhar', () => {
 
   const filmes = ref([])
   const numAleatorio = ref(null)
-  const aparecer = ref(false)
+  const selecionados = ref([])
+const aparecer = ref(false)
   const filmeEscolhido = ref(null)
   const palavraEmbaralhada = ref([])
 
@@ -42,10 +43,13 @@ export const useEmbaralharStore = defineStore('embaralhar', () => {
     contador.value = 0
   }
   function verificarLetra() {
+    if (!filmeEscolhido.value || !filmeEscolhido.value.title) {
+  console.warn("Filme ainda não carregou!");
+  return;
+}
     const selecionados = filmesStore.selecionados
 
     if (selecionados.length === 0) return
-
     const letraCerta = filmeEscolhido.value.title[contador.value]
 
     for (let i = contador.value; i < palavraEmbaralhada.value.length; i++) {
@@ -71,5 +75,7 @@ export const useEmbaralharStore = defineStore('embaralhar', () => {
     palavraEmbaralhada,
     contador,
     gerarFilmeAleatorio,
+    selecionados,
+    aparecer,
   }
 })

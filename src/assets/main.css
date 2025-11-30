@@ -1,15 +1,5 @@
 @import './base.css';
 
-body {
-  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url('./public/images/oscar1 1.png');
-  background-size: cover;
-  background-position: top right;
-  background-repeat: no-repeat; 
-  background-attachment: fixed;
-  margin: 0;
-  height: 100vh;
-  font-family: 'Arimo', sans-serif;
-}
 ul {
   list-style: none;
   padding: 0;

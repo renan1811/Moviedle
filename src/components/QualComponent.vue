@@ -212,7 +212,7 @@ function clicar(filmeId) {
 }
 .jorge .texto{
  margin-top: 2vh;
- border-top: #ffe100 3px solid;
+ border-top: #004583 3px solid;
 
  font-size: 1.5rem;
 }
@@ -220,7 +220,7 @@ function clicar(filmeId) {
   font-size: 1.2rem;
   font-weight: 700;
   font-family: arimo, sans-serif;
-  color: #ffffff;
+  color: black;
    text-align: center;
   word-break: break-word;
   display: block;
@@ -278,7 +278,7 @@ function clicar(filmeId) {
 .icone-resultado {
   font-size: 30px;
   font-weight: bold;
-  color: white;
+  color: black;
 }
 
 .bola-verde {
@@ -299,12 +299,12 @@ function clicar(filmeId) {
   color: #333;
 }
 .score{
-  color: #ffffff;
+  color: black;
   font-size: 1.1rem;
 }
 
 .score .con{
-  color: #ffe100;
+  color: #004583;
   font-size: 1.5rem;
   font-weight: bold;
 

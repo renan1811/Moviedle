@@ -42,7 +42,7 @@ onMounted(() => {
 
 <style scoped>
 .voltar p{
-  color: #ffe100;
+  color: #004583;
   padding-bottom: 3vh;
   margin-left: 2vw;
   align-items: center;
