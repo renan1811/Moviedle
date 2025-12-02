@@ -12,17 +12,15 @@
 </template>
 
 <style scoped>
-header {
-    width: 100%;
-}
-nav {
-    width: 100%;
-}
+header {}
+
+nav {}
+
 h1 {
-    margin: 1vw 4vw 0;
-    font-size: 2.5rem;
+    margin: 1vw 0 0 0;
+    font-size: 3rem;
     font-weight: bold;
-    color: #FFE100;
-    text-align: left;
+    color: #004583;
+    text-align: center;
 }
 </style>

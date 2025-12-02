@@ -32,11 +32,11 @@ h1, span {
   text-align: center;
   font-size: 6rem;
   font-weight: bold;
-  color: white;
+  color: black;
 }
 
 .acertou {
-  color: #65ff5a;
+  color: #004583;
   font-weight: bold;
 }
 </style>

@@ -3,41 +3,30 @@ import { ref } from 'vue'
 import '@mdi/font/css/materialdesignicons.css'
 const jogos = ref([
   { titulo: 'Decifre o filme', numero: 1, subtitulo: 'Decifre através de carácteristicas do filme', router: "decifrar" },
-  { titulo: 'Descubra o filme', numero: 2, subtitulo: 'Descubra o filme através de dicas', router: "decifrar"},
-  { titulo: 'Descubra pela imagem', numero: 3, subtitulo: 'Descubra o filme pela imagem', router: "imagem"},
-  { titulo: 'Quem é mais caro ', numero: 4, subtitulo: 'Adivinhe qual filme custou mais', router: "qual" },
-  { titulo: 'Acerte pelo elenco', numero: 5, subtitulo: 'Acerte o filme pelo elenco', router: "adivinharElenco" },
+  { titulo: 'Descubra pela imagem', numero: 2, subtitulo: 'Descubra o filme pela imagem', router: "imagem" },
+  { titulo: 'Quem é mais caro ', numero: 3, subtitulo: 'Adivinhe qual filme custou mais', router: "qual" },
+  { titulo: 'Acerte pelo elenco', numero: 4, subtitulo: 'Acerte o filme pelo elenco', router: "adivinharElenco" },
 ])
 
-function rotacionarArray(array, indexClicado) {
-  const meio = Math.floor(array.length / 2);
-  const deslocamento = indexClicado - meio;
-  jogos.value = array.slice(deslocamento).concat(array.slice(0, deslocamento));
-}
+
 </script>
 
 <template>
-      <ul>
-        <li v-for="(jogo, index) in jogos" :key="index" v-on:click="rotacionarArray(jogos, index)" :style="index === 2 ? 'transform: scale(1.3); margin: 0px 40px' : ''">
-
-          <div class="card">
-            <h2>{{ jogo.numero }}</h2>
-            <div v-if="index == 2">
-              <router-link :to="jogo.router" class="router">
-              <span class="mdi mdi-play"></span>
-              </router-link>
-            </div>
-            <h1 v-else>{{ jogo.titulo }}</h1>
-          </div>
-
-        </li>
-      </ul>
-      <div class="info">
-        <h1>Moviedle: {{ jogos[2].titulo }}</h1>
-        <h2>{{ jogos[2].subtitulo }}</h2>
-        <router-link :to="jogos[2].router">Jogar</router-link>
+  <ul>
+    <li v-for="(jogo, index) in jogos" :key="index">
+      <div class="card">
+        <div class="card-details">
+          <p class="text-title">{{ jogo.numero }}</p>
+          <p class="text-body">{{ jogo.titulo }}</p>
+        </div>
+        <RouterLink :to="jogo.router">
+        <button class="card-button">Jogar</button>
+        </RouterLink>
       </div>
 
+
+    </li>
+  </ul>
 </template>
 <style scoped>
 ul {
@@ -48,88 +37,70 @@ ul {
 }
 
 
-div.card {
-    color: white;
-    background-color: black;
-    box-shadow: rgba(255, 225, 0, 0.4) 0px 3px 8px;
-    border-radius: 1vw;
-    width: 16vw;
-    height: 35vh;
-    padding: 0.2vw;
-    text-align: center;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: -2;
-      transition: 0.2s ease;
+.card {
+  width: 12vw;
+  height: 30vh;
+  border-radius: 0.5vw;
+  background: #f5f5f5;
+  position: relative;
+  padding: 1.8rem;
+  border: 2px solid #c3c6ce;
+  transition: 0.5s ease-out;
+  overflow: visible;
 }
-.card:hover {
-    transform: translateY(-5px);
-}
-li:hover {
-  transform: translateY(-5px);
-}
-.router {
-  box-shadow: none;
-  background: transparent;
-  font-size: 5rem;
-}
-div.card span {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid grey;
-  height: 11vh;
-  width: 6vw;
-  border-radius: 100%;
-}
-div.card h1 {
-  font-size: 2rem;
-  font-weight: bold;
-  display: flex;
 
+.card-details {
+  color: black;
+  height: 100%;
+  gap: .5em;
+  display: grid;
+  place-content: center;
 }
-div.card h2 {
+
+.card-button {
+  transform: translate(-50%, 125%);
+  width: 9vw;
+  border-radius: 0.3vw;
+  border: none;
+  background-color: #004583;
+  font-weight: bold;
+  color: #fff;
+  font-size: 1rem;
+  padding: .5rem 1rem;
   position: absolute;
-  font-size: 11rem;
+  left: 50%;
+  bottom: 0;
+  opacity: 0;
+  transition: 0.3s ease-out;
+}
+
+.text-body {
+  color: #004583;
+  font-size: 1.3rem;
   font-weight: bold;
-  z-index: -1;
+  text-align: center;
+}
+
+/*Text*/
+.text-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 10rem;
+  font-weight: bold;
   opacity: 10%;
-  color: #ffe100;
-}
-div.info {
-  margin: 4vw 0 0 0;
-  color: white;
+  color: #004583;
+  pointer-events: none; 
 }
 
-div.info h1 {
-  display: flex;
-  justify-content: center;
-  font-weight: bold;
+/*Hover*/
+.card:hover {
+  border-color: #004583;
+  box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
 }
-
-div.info h2 {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-a {
-  padding: 10px 80px;
-  background-color: black;
-  color: aliceblue;
-  box-shadow: rgba(255, 225, 0, 0.4) 0px 3px 8px;
-  display: flex;
-  justify-content: center;
-  width: 50px;
-  margin: auto;
-  border-radius: 8px;
-  transition: 0.2s ease;
-  font-weight: bold;
-}
-
-a:hover {
-  transform: translateY(-5px);
+.card:hover .card-button {
+  transform: translate(-50%, 50%);
+  opacity: 1;
 }
 </style>

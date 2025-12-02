@@ -16,15 +16,15 @@ footer {
     margin: 3vw 0 0 0;
 }
 footer h1 {
-    color: white;
+    color: black;
     font-size: 1.2rem;
 }
 footer h1 a {
-    color: white;
+    color: #004583;
     font-weight: bold;
 }
 footer h2 {
-    color: white;
+    color: black;
     font-size: 1.2rem;
 }
 </style>
