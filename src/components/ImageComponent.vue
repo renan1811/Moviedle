@@ -1,48 +1,60 @@
 <script setup>
-import { onMounted, watch, inject} from 'vue'
+import { watch, inject, ref} from 'vue'
 import { useFilmesStore } from '@/stores/index.js'
-//import { useRouter } from 'vue-router' // <-- NOVO: Importação do useRouter
+import { useFilmesStore as useSearchStore } from '@/stores/searchbar.js'
+import { storeToRefs } from 'pinia'
 import searchBarComponent from './reutilizaveis/searchBarComponent.vue'
-
-
-//const router = useRouter()
-
-const selecionados = inject('selecionados');
 
 const aparecer = inject('aparecer');
 
-
 const store = useFilmesStore()
 
+const blur = ref(25)
 
-onMounted(() => {
-  store.carregarFilmeAleatorio()
-})
+
+const searchStore = useSearchStore()
+const { selecionados } = storeToRefs(searchStore)
+
+// onMounted(() => {
+//   store.carregarFilmeAleatorio()
+// })
 
 
 watch(
-  () => selecionados.value,
+  selecionados,
   (novoValor) => {
     if (novoValor.length > 0) {
       const filmeSelecionado = novoValor[0];
 
+
       if (store.filmeEscolhido && filmeSelecionado.id === store.filmeEscolhido.id) {
-        console.log(store.filmeEscolhido.value);
+
+        console.log("vitoria:", store.filmeEscolhido.title);
         aparecer.value = true
-
-
+      }
+      else if(store.filmeEscolhido) {
+        if (blur.value > 10) {
+          blur.value -= 5;
+      }
+        else{
+          blur.value -= 5;
       }
     }
-  },
+  }
+
+    },
   { deep: true }
 );
 
+
+
 </script>
+
 
 <template>
   <div class="maior">
   <div class="embacado" v-if="store.filmeEscolhido">
-    <img :src="`https://image.tmdb.org/t/p/w185${store.filmeEscolhido.poster_path}`" alt="imagem do filme">
+    <img :src="`https://image.tmdb.org/t/p/w185${store.filmeEscolhido.poster_path}`" :style="{ '--blur': blur + 'px' }" alt="imagem do filme" draggable="false">
   </div>
   <searchBarComponent />
   </div>
@@ -70,5 +82,6 @@ watch(
   height: auto;
   border-radius: 10px;
   flex-shrink: 0;
+  filter: blur(var(--blur));
 }
 </style>
