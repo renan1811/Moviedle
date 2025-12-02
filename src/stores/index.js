@@ -8,8 +8,10 @@ export const useFilmesStore = defineStore('filmes', () => {
   const filmes = ref([])
   const filmeEscolhido = ref(null)
   const filmeEscolhido2 = ref(null)
-
+  const isLoading = ref(false)
   async function carregarFilmeAleatorio() {
+
+    isLoading.value = true
     const paginaAleatoria = Math.floor(Math.random() * 50)
     const response = await api.get(
       `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=pt-BR&page=${paginaAleatoria}&sort_by=popularity.desc&vote_count.gte=1500`
@@ -29,12 +31,14 @@ export const useFilmesStore = defineStore('filmes', () => {
 
     filmeEscolhido.value = detalhes1.data
     filmeEscolhido2.value = detalhes2.data
+    isLoading.value = false
   }
 
   return {
     filmes,
     filmeEscolhido,
     filmeEscolhido2,
-    carregarFilmeAleatorio
+    carregarFilmeAleatorio,
+    isLoading,
   }
 })

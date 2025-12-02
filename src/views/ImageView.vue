@@ -31,6 +31,7 @@ onMounted(() => {
 
 <template>
 <HeaderComponent />
+<div class="fundo">
     <VitoriaComponent />
     <div v-if="aparecer == false" >
         <NomeJogoComponent nome="Adivinhe pela imagem" comoJogar="Dois filmes aparecerão na tela e voce tera que adivinhar qual deles custou mais dinheiro para ser feito." desc="Tente advinhar qual filme custou mais: "/>
@@ -41,11 +42,21 @@ onMounted(() => {
       </router-link>
     </div>
     </div>
+    </div>
 </template>
 
 <style scoped>
+div.fundo {
+ position: relative;
+  width: 100%;
+  height: 90vh;
+  background-image: url('/images/fundo imagem.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: top center;
+}
 .voltar p{
-  color: #ffe100;
+  color: #004583;
   padding-bottom: 3vh;
   margin-left: 2vw;
   align-items: center;

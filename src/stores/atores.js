@@ -8,7 +8,7 @@ export const useAtoresStore = defineStore('atores', () => {
   const filmeEscolhido = ref(null)
   const filmes = ref([])
   const numAleatorio = ref(null)
-
+  const isLoading = ref(false)
   const cards = ref([
     { id: 1, name: '?', profile_path: null },
     { id: 2, name: '?', profile_path: null },
@@ -19,6 +19,7 @@ export const useAtoresStore = defineStore('atores', () => {
   ])
 
   async function carregarFilmeEElenco() {
+    isLoading.value = true
     cards.value = [
       { id: 1, name: '?', profile_path: null },
       { id: 2, name: '?', profile_path: null },
@@ -57,6 +58,7 @@ export const useAtoresStore = defineStore('atores', () => {
     } catch (error) {
       console.error('Erro ao buscar elenco:', error)
     }
+    isLoading.value = false
   }
 
 
@@ -67,5 +69,6 @@ export const useAtoresStore = defineStore('atores', () => {
     carregarFilmeEElenco,
      selecionados,
      aparecer,
+     isLoading,
   }
 })

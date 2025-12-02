@@ -13,6 +13,7 @@ const aparecer = ref(false)
   const palavraEmbaralhada = ref([])
 
   const contador = ref(0)
+  const isLoading = ref(false)
 
   const filmesStore = useFilmesStore()
 
@@ -28,6 +29,7 @@ const aparecer = ref(false)
     return embaralhada.split('')
   }
   async function gerarFilmeAleatorio() {
+    isLoading.value = true
     const paginaAleatoria = Math.floor(Math.random() * 50)
 
     const response = await api.get(
@@ -37,14 +39,19 @@ const aparecer = ref(false)
     filmes.value = response.data.results
     numAleatorio.value = Math.floor(Math.random() * filmes.value.length)
     filmeEscolhido.value = filmes.value[numAleatorio.value]
-
+    
+    if (!filmeEscolhido.value?.title || filmeEscolhido.value.title.length < 2) {
+    console.warn("Filme inválido, recarregando…")
+    return gerarFilmeAleatorio()
+  }
     palavraEmbaralhada.value = embaralharPalavra(filmeEscolhido.value.title)
 
     contador.value = 0
+    isLoading.value = false
   }
   function verificarLetra() {
     if (!filmeEscolhido.value || !filmeEscolhido.value.title) {
-  console.warn("Filme ainda não carregou!");
+  console.warn("Filme ainda não car regou!");
   return;
 }
     const selecionados = filmesStore.selecionados
@@ -77,5 +84,6 @@ const aparecer = ref(false)
     gerarFilmeAleatorio,
     selecionados,
     aparecer,
+    isLoading,
   }
 })

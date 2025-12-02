@@ -10,6 +10,10 @@ onMounted(() => {
 </script>
 
 <template>
+  <div v-if="store.isLoading" class="loader-wrapper">
+  <div class="loader"></div>
+</div>
+<div v-else>
   <div v-if="store.filmeEscolhido && store.palavraEmbaralhada.length">
     <h1>
       <span
@@ -21,6 +25,8 @@ onMounted(() => {
       </span>
     </h1>
   </div>
+</div>
+
 </template>
 
 <style>
@@ -38,5 +44,27 @@ h1, span {
 .acertou {
   color: #004583;
   font-weight: bold;
+}
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.loader {
+  width: 70px;
+  height: 70px;
+  border: 7px solid #ddd;
+  border-top-color: #004583;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>

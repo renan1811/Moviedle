@@ -6,7 +6,7 @@ import { useFilmesStore } from '@/stores/searchbar'
 const aparecer = inject('aparecer')
 const atoresStore = useAtoresStore()
 const searchStore = useFilmesStore()
-const { cards, filmeEscolhido, atores } = storeToRefs(atoresStore)
+const { cards, filmeEscolhido, atores, isLoading } = storeToRefs(atoresStore)
 
 watch(
   () => searchStore.selecionados, // ou outro array que armazena as tentativas
@@ -32,7 +32,7 @@ watch(
   () => searchStore.selecionados,
   (novoValor) => {
     if (!novoValor || novoValor.length === 0) return
-    const index = novoValor.length 
+    const index = novoValor.length
     const ator = atores.value[index]
     if (!ator) {
       return
@@ -49,7 +49,10 @@ watch(
 </script>
 
 <template>
-  <div>
+   <div v-if="isLoading" class="loader-wrapper">
+  <div class="loader"></div>
+</div>
+  <div v-else>
     <ul>
       <li v-for="card in cards" :key="card.id" class="card">
         <div v-if="card.name !== '?'">
@@ -105,5 +108,26 @@ li.card div.escondido h1 {
   color: #004583;
   font-size: 6rem;
   margin-top: 0.5rem;
+}
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.loader {
+  width: 70px;
+  height: 70px;
+  border: 7px solid #ddd;
+  border-top-color: #004583;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>

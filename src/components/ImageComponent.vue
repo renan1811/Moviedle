@@ -52,7 +52,10 @@ watch(
 
 
 <template>
-  <div class="maior">
+  <div v-if="store.isLoading" class="loader-wrapper">
+  <div class="loader"></div>
+</div>
+  <div class="maior" v-else>
   <div class="embacado" v-if="store.filmeEscolhido">
     <img :src="`https://image.tmdb.org/t/p/w185${store.filmeEscolhido.poster_path}`" :style="{ '--blur': blur + 'px' }" alt="imagem do filme" draggable="false">
   </div>
@@ -83,5 +86,27 @@ watch(
   border-radius: 10px;
   flex-shrink: 0;
   filter: blur(var(--blur));
+}
+
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.loader {
+  width: 70px;
+  height: 70px;
+  border: 7px solid #ddd;
+  border-top-color: #004583;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 </style>

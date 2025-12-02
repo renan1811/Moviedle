@@ -7,21 +7,17 @@ import { faCheck, faXmark } from '@fortawesome/free-solid-svg-icons'
 
 const router = useRouter()
 
-
 const selecionados = ref([])
 provide('selecionados', selecionados)
 
-const filmeEscolhido = ref("")
+const filmeEscolhido = ref('')
 provide('filmeEscolhido', filmeEscolhido)
 
-const filmeEscolhido2 = ref("")
+const filmeEscolhido2 = ref('')
 provide('filmeEscolhido2', filmeEscolhido2)
 
 const aparecer = ref(false)
 provide('aparecer', aparecer)
-
-
-
 
 const store = useFilmesStore()
 
@@ -32,8 +28,6 @@ const isCorrect = ref(null)
 const contador = ref(0)
 
 const isLoading = ref(true)
-
-
 
 onMounted(() => {
   store.carregarFilmeAleatorio()
@@ -58,147 +52,140 @@ function formatCurrency(value) {
 const custo1Dolar = computed(() => formatCurrency(custo1.value))
 const custo2Dolar = computed(() => formatCurrency(custo2.value))
 
-
 const Custo1Maior = computed(() => custo1.value >= custo2.value)
 const Custo2Maior = computed(() => custo2.value >= custo1.value)
 
-
 const filmesiguais = computed(() => {
-    return store.filmeEscolhido?.id &&
-           store.filmeEscolhido2?.id &&
-           store.filmeEscolhido.id === store.filmeEscolhido2.id
+  return (
+    store.filmeEscolhido?.id &&
+    store.filmeEscolhido2?.id &&
+    store.filmeEscolhido.id === store.filmeEscolhido2.id
+  )
 })
 
 const custozero = computed(() => {
-    return custo1.value <= 0 || custo2.value <= 0
+  return custo1.value <= 0 || custo2.value <= 0
 })
 
 async function loadUniqueFilms() {
+  isLoading.value = true
 
-    isLoading.value = true
+  // carrega 1x
+  await store.carregarFilmeAleatorio()
 
-    await store.carregarFilmeAleatorio()
+  // se vier errado, tenta de novo — SEM travar a interface
+  if (filmesiguais.value || custozero.value) {
+    console.log('Filmes inválidos, recarregando...')
+    return loadUniqueFilms() // recursão limpa, não trava
+  }
 
-    while (filmesiguais.value || custozero.value) {
-        console.log("Filmes iguais, recarregando...")
-        await store.carregarFilmeAleatorio()
-    }
-
-    isLoading.value = false
+  isLoading.value = false
 }
-
 
 onMounted(() => {
   loadUniqueFilms()
 })
 
 function resetGame() {
-    clicou.value = false
-    isCorrect.value = null
+  clicou.value = false
+  isCorrect.value = null
 
-
-    loadUniqueFilms()
+  loadUniqueFilms()
 }
-
-
 
 function clicar(filmeId) {
+  if (clicou.value) return
 
-    if (clicou.value) return
+  clicou.value = true
 
-    clicou.value = true
+  let escolhaCorreta = false
 
+  if (filmeId === 1) {
+    escolhaCorreta = Custo1Maior.value
+  } else if (filmeId === 2) {
+    escolhaCorreta = Custo2Maior.value
+  }
 
-    let escolhaCorreta = false
+  isCorrect.value = escolhaCorreta
 
-    if (filmeId === 1) {
+  if (isCorrect.value) {
+    contador.value += 1
+  }
 
-        escolhaCorreta = Custo1Maior.value
-    } else if (filmeId === 2) {
-
-        escolhaCorreta = Custo2Maior.value
+  setTimeout(() => {
+    if (isCorrect.value) {
+      resetGame()
+    } else {
+      router.push({ name: 'Derrota', params: { score: contador.value } })
     }
-
-    isCorrect.value = escolhaCorreta
-
-
-    if (isCorrect.value){
-        contador.value +=1
-    }
-
-
-
-    setTimeout(() => {
-      if (isCorrect.value) {
-
-            resetGame()
-        } else {
-
-            router.push({ name: 'Derrota', params: { score: contador.value } })
-        }
-    }, 3000)
+  }, 3000)
 }
-
-
-
-
-
 </script>
 
 <template>
-  <div class="bigger">
-  <div>
-  <div v-if="isLoading" class="loading-screen">
-      <h1>Carregando Filmes...</h1>
-    </div>
+  <div v-if="isLoading" class="loader-wrapper">
+  <div class="loader"></div>
+</div>
+  <div v-else class="bigger">
+    <div>
 
-  <div v-else>
-    <div class="maior">
+      <div>
+        <div class="maior">
+          <div class="jorge" v-if="store.filmeEscolhido" @click="clicar(1)">
+            <img
+              :src="`https://image.tmdb.org/t/p/w185${store.filmeEscolhido.poster_path}`"
+              alt="imagem do filme"
+            />
+            <div class="texto">
+              <span>{{ store.filmeEscolhido.title }}</span>
+            </div>
+            <div v-if="clicou" :class="{ 'maior-custo': Custo1Maior, 'menor-custo': Custo2Maior }">
+              {{ custo1Dolar }}
+            </div>
+          </div>
 
-      <div class="jorge" v-if="store.filmeEscolhido" @click="clicar(1)">
-        <img :src="`https://image.tmdb.org/t/p/w185${store.filmeEscolhido.poster_path}`" alt="imagem do filme">
-        <div class="texto"><span>{{ store.filmeEscolhido.title }}</span></div>
-        <div v-if="clicou" :class="{ 'maior-custo': Custo1Maior, 'menor-custo': Custo2Maior}">{{ custo1Dolar }}</div>
-      </div>
+          <div v-if="clicou" class="resultado-container">
+            <div :class="['bola', isCorrect ? 'bola-verde' : 'bola-vermelha']">
+              <FontAwesomeIcon v-if="isCorrect" :icon="faCheck" class="icone-resultado" />
+              <FontAwesomeIcon v-else :icon="faXmark" class="icone-resultado" />
+            </div>
+          </div>
 
-
-      <div v-if="clicou" class="resultado-container">
-        <div :class="['bola', isCorrect ? 'bola-verde' : 'bola-vermelha']">
-        <FontAwesomeIcon v-if="isCorrect" :icon="faCheck" class="icone-resultado" />
-        <FontAwesomeIcon v-else :icon="faXmark" class="icone-resultado" />
+          <div class="jorge" v-if="store.filmeEscolhido2" @click="clicar(2)">
+            <img
+              :src="`https://image.tmdb.org/t/p/w185${store.filmeEscolhido2.poster_path}`"
+              alt="imagem do filme"
+            />
+            <div class="texto">
+              <span>{{ store.filmeEscolhido2.title }}</span>
+            </div>
+            <div v-if="clicou" :class="{ 'maior-custo': Custo2Maior, 'menor-custo': Custo1Maior }">
+              {{ custo2Dolar }}
+            </div>
+          </div>
         </div>
       </div>
 
-
-      <div class="jorge" v-if="store.filmeEscolhido2" @click="clicar(2)">
-        <img :src="`https://image.tmdb.org/t/p/w185${store.filmeEscolhido2.poster_path}`" alt="imagem do filme">
-        <div class="texto"><span>{{ store.filmeEscolhido2.title }}</span></div>
-        <div v-if="clicou" :class="{ 'maior-custo': Custo2Maior, 'menor-custo': Custo1Maior}">{{ custo2Dolar}}</div>
+      <div class="score">
+        <p>score atual:</p>
+        <p class="con">{{ contador }}</p>
       </div>
     </div>
-    </div>
-
-    <div class="score">
-      <p>score atual:</p>
-      <p class="con">{{ contador }}</p>
-    </div>
-    </div>
   </div>
-
-
 </template>
 
 <style scoped>
 .jorge {
- display: flex;
+  display: flex;
   flex-direction: column;
   margin: 4vw;
   align-items: center;
   width: 18vw;
+  transition: transform 0.25s ease;
 }
-.jorge:hover{
-  border-color: #004583;
-  box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+
+.jorge:hover {
+  transform: scale(1.05);
 }
 
 .maior {
@@ -214,31 +201,31 @@ function clicar(filmeId) {
   border-radius: 10px;
   flex-shrink: 0;
 }
-.jorge .texto{
- margin-top: 2vh;
- border-top: #004583 3px solid;
+.jorge .texto {
+  margin-top: 2vh;
+  border-top: #004583 3px solid;
 
- font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 .jorge span {
   font-size: 1.2rem;
   font-weight: 700;
   font-family: arimo, sans-serif;
   color: black;
-   text-align: center;
+  text-align: center;
   word-break: break-word;
   display: block;
 }
 
 .bigger {
   display: flex;
-  flex-direction:column ;
+  flex-direction: column;
   align-items: center;
   margin-bottom: 10vh;
 }
-.score{
+.score {
   display: flex;
-  flex-direction:column ;
+  flex-direction: column;
   align-items: center;
 }
 
@@ -286,11 +273,11 @@ function clicar(filmeId) {
 }
 
 .bola-verde {
-  background-color: #4CAF50;
+  background-color: #4caf50;
 }
 
 .bola-vermelha {
-  background-color: #F44336;
+  background-color: #f44336;
 }
 
 .loading-screen {
@@ -302,16 +289,35 @@ function clicar(filmeId) {
   font-size: 2em;
   color: #333;
 }
-.score{
+.score {
   color: black;
   font-size: 1.1rem;
 }
 
-.score .con{
+.score .con {
   color: #004583;
   font-size: 1.5rem;
   font-weight: bold;
-
+}
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh; /* ocupa a maior parte da tela */
 }
 
+.loader {
+  width: 70px;        /* maior */
+  height: 70px;
+  border: 7px solid #ddd;
+  border-top-color: #004583;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 </style>
