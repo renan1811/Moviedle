@@ -196,6 +196,10 @@ function clicar(filmeId) {
   align-items: center;
   width: 18vw;
 }
+.jorge:hover{
+  border-color: #004583;
+  box-shadow: 0 4px 18px 0 rgba(0, 0, 0, 0.25);
+}
 
 .maior {
   display: flex;
@@ -278,7 +282,7 @@ function clicar(filmeId) {
 .icone-resultado {
   font-size: 30px;
   font-weight: bold;
-  color: black;
+  color: rgb(255, 255, 255);
 }
 
 .bola-verde {
@@ -309,4 +313,5 @@ function clicar(filmeId) {
   font-weight: bold;
 
 }
+
 </style>

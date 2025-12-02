@@ -8,8 +8,9 @@ import { ref, provide, onMounted} from 'vue'
 import { useFilmesStore } from '@/stores/index.js'
 import VitoriaComponent from '@/components/reutilizaveis/vitoriaComponent.vue';
 
-const selecionados = ref([])
-provide('selecionados', selecionados)
+
+// const selecionados = ref([])
+
 
 const store = useFilmesStore()
 provide('filmeEscolhido', store.filmeEscolhido)

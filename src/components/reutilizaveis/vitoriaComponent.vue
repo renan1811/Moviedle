@@ -3,21 +3,26 @@ import { inject, ref, watch, onMounted, computed } from 'vue'
 import api from '@/plugins/axios'
 import { useAtoresStore } from '@/stores/atores'
 import { useEmbaralharStore } from '@/stores/embaralhar'
-import { useFilmesStore } from '@/stores/searchbar'
+import { useFilmesStore as useSearchStore } from '@/stores/searchbar' 
+import { useFilmesStore as useTargetStore } from '@/stores/index'
 import { storeToRefs } from 'pinia'
 
-// Stores dos dois jogos
+// Stores dos jogos
 const atoresStore = useAtoresStore()
 const embaralharStore = useEmbaralharStore()
-const search = useFilmesStore()
+const search = useSearchStore()
+const targetStore = useTargetStore()
 
-// Pega os filmes escolhidos de cada jogo
+
 const { filmeEscolhido: filmeCards } = storeToRefs(atoresStore)
 const { filmeEscolhido: filmeEmbaralhar } = storeToRefs(embaralharStore)
 const { selecionados } = storeToRefs(search)
 
-// Computed para sempre usar o filme correto
-const filmeAtual = computed(() => filmeCards.value || filmeEmbaralhar.value)
+
+const { filmeEscolhido: filmeImage } = storeToRefs(targetStore)
+
+
+const filmeAtual = computed(() => filmeCards.value || filmeEmbaralhar.value || filmeImage.value)
 
 // Variáveis de exibição do componente
 const aparecer = inject('aparecer')
