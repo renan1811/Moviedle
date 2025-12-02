@@ -5,7 +5,7 @@ import api from '@/plugins/axios'
 const genres = ref([]);
 
 onMounted(async () => {
-    const response = await api.ge('genre/movie/list?language=pt-BR');
+    const response = await api.get('genre/movie/list?language=pt-BR');
     genres.value = response.data.genres; 
 });
 </script>
